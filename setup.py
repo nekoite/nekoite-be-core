@@ -32,13 +32,14 @@ def setup_pkg():
 
     metadata = dict(
         name="nekoite-be-core",
-        version="0.0.1",
+        version="0.0.3",
         author="Nekoite",
         author_email="nekoite@rebuild.moe",
         license="MIT",
         description=DESCRIPTION,
         long_description=LONG_DESCRIPTION,
         long_description_content_type="text/markdown",
+        url="https://github.com/nekoite/nekoite-be-core",
         classifiers=[_f for _f in CLASSIFIERS.split("\n") if _f],
         python_requires=">=3.7",
         install_requires=[_f for _f in INSTALL_REQUIREMENTS.split("\n") if _f],
