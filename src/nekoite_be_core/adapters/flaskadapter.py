@@ -25,10 +25,10 @@ def default_routefunc_generator(
     def _f_():
         if request.method != "GET" and view._is_json_body_ and not request.is_json:
             raise RuntimeError("Not json post request")
-        if request.method == "GET":
-            req = request.args.to_dict()
-        else:
+        if request.method in ("PUT", "POST"):
             req = request.json
+        else:
+            req = request.args
         try:
             req = view.parse_request(req)
         except ValidationError as e:

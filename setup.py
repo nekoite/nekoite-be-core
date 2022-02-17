@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 
 CLASSIFIERS = """\
-Development Status :: 2 - Pre-Alpha
+Development Status :: 3 - Alpha
 Intended Audience :: Developers
 License :: OSI Approved :: MIT License
 Programming Language :: Python
@@ -32,7 +32,7 @@ def setup_pkg():
 
     metadata = dict(
         name="nekoite-be-core",
-        version="0.0.4",
+        version="0.1.0",
         author="Nekoite",
         author_email="nekoite@rebuild.moe",
         license="MIT",
