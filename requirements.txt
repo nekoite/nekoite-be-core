@@ -1,0 +1,13 @@
+# main requirements
+sqlalchemy>=1.4
+marshmallow>=3.14
+
+# test requirements
+flask
+
+# linters and formatters
+black
+mypy
+
+# build
+twine
