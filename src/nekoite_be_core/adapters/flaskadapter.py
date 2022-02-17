@@ -32,6 +32,7 @@ def default_routefunc_generator(
         try:
             req = view.parse_request(req)
         except ValidationError as e:
+            # TODO: add customized error processing
             return {"code": 400, "message": str(e)}
         code = 0
         message = ""
