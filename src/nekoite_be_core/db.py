@@ -1,21 +1,11 @@
-import sys
 from typing import Any, Callable, Type, Union
-
-if sys.version_info < (3, 8):
-    from typing_extensions import Protocol
-else:
-    from typing import Protocol
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Query, scoped_session, sessionmaker
 
+from nekoite_be_core.types.interfaces import ICommitable as _Commitable
 
 __all__ = ["make_commit_decorator", "ModelBase", "make_model_base"]
-
-
-class _Commitable(Protocol):
-    def commit(self) -> None:
-        ...
 
 
 def make_commit_decorator(session: _Commitable):
