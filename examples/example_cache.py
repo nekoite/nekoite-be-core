@@ -2,10 +2,11 @@ import sys
 
 sys.path.append("src")
 
-from nekoite_be_core.cache import lru_cache, redis_func_cache
 import redis
 import time
 import pickle
+
+from nekoite_be_core.cache import lru_cache, redis_func_cache, _default_key_maker
 
 r = redis.Redis()
 
@@ -60,3 +61,31 @@ for _ in range(4):
     print(f"Used {end - start} seconds")
 
 print(r.get("myprojectcompute_object-3550055125485641917"))
+
+
+def another_task(x):
+    return x + 1
+
+
+def our_key_maker(func, args, kwargs, typed):
+    print("Use redis - ", end="")
+    return _default_key_maker(func, args, kwargs, typed)
+
+
+@lru_cache(maxsize=5)
+@redis_func_cache(r, "myproject", ex=30, key_maker=our_key_maker)
+def another_compute(x):
+    time.sleep(1)
+    return another_task(x)
+
+
+items = [i for i in range(10)]
+
+for _ in range(4):
+    for i in items:
+        start = int(time.time())
+        val = another_compute(i)
+        assert val == another_task(i)
+        end = int(time.time())
+        print(f"Used {end - start} seconds")
+    items.reverse()

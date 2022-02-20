@@ -5,8 +5,10 @@ import json
 
 from nekoite_be_core.types.interfaces import IStrSerializer
 
-if TYPE_CHECKING:
+try:
     import redis
+except ImportError:
+    pass
 
 __all__ = ["redis_func_cache", "lru_cache", "cache"]
 
