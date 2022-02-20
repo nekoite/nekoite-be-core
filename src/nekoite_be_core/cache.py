@@ -1,11 +1,12 @@
 from functools import cache, lru_cache, _make_key
 import functools
-from typing import Callable, Dict, Hashable, Tuple, TypeVar
+from typing import Callable, Dict, Hashable, Tuple, TYPE_CHECKING
 import json
 
 from nekoite_be_core.types.interfaces import IStrSerializer
 
-_T = TypeVar("_T")
+if TYPE_CHECKING:
+    import redis
 
 __all__ = ["redis_func_cache", "lru_cache", "cache"]
 
@@ -17,7 +18,7 @@ def _default_key_maker(
 
 
 def redis_func_cache(
-    r: "redis.Redis",  # type: ignore
+    r: redis.Redis,
     prefix: str,
     *,
     typed: bool = False,
