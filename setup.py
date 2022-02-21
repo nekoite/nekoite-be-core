@@ -1,5 +1,3 @@
-from nekoite_be_core.version import __version__ as version
-
 DESCRIPTION = "A backend core utility library."
 
 with open("README.md", "r", encoding="utf-8") as f:
@@ -34,7 +32,7 @@ def setup_pkg():
 
     metadata = dict(
         name="nekoite-be-core",
-        version=version,
+        version="0.1.1",
         author="Nekoite",
         author_email="nekoite@rebuild.moe",
         license="MIT",

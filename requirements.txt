@@ -5,6 +5,7 @@ marshmallow>=3.14
 # test requirements
 flask
 redis
+types-redis
 
 # linters and formatters
 black

@@ -1,6 +1,6 @@
-from functools import cache, lru_cache, _make_key
+from functools import lru_cache, _make_key
 import functools
-from typing import Callable, Dict, Hashable, Tuple, TYPE_CHECKING
+from typing import Callable, Dict, Hashable, Tuple
 import json
 
 from nekoite_be_core.types.interfaces import IStrSerializer
@@ -9,6 +9,15 @@ try:
     import redis
 except ImportError:
     pass
+
+try:
+    from functools import cache  # type: ignore
+except ImportError:
+
+    def cache(user_function: Callable):  # type: ignore
+        'Simple lightweight unbounded cache.  Sometimes called "memoize".'
+        return lru_cache(maxsize=None)(user_function)
+
 
 __all__ = ["redis_func_cache", "lru_cache", "cache"]
 
@@ -28,7 +37,7 @@ def redis_func_cache(
         [Callable, Tuple[Hashable, ...], Dict[str, Hashable], bool], str
     ] = None,
     serializer: IStrSerializer = json,
-    **redis_kwargs
+    **redis_kwargs,
 ):
     """
     Currently the serializer used is json instead of pickle for security issues,
