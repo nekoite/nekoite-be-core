@@ -1,4 +1,4 @@
-DESCRIPTION = "nekoite-be-core is a backend core utility library."
+DESCRIPTION = "A backend core utility library."
 
 with open("README.md", "r", encoding="utf-8") as f:
     LONG_DESCRIPTION = f.read()
@@ -32,7 +32,7 @@ def setup_pkg():
 
     metadata = dict(
         name="nekoite-be-core",
-        version="0.1.0",
+        version="0.1.1",
         author="Nekoite",
         author_email="nekoite@rebuild.moe",
         license="MIT",
