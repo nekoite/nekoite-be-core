@@ -1,14 +1,15 @@
+import functools
 from typing import Any, Callable, Type, Union
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Query, scoped_session, sessionmaker
 
-from nekoite_be_core.types.interfaces import ICommitable as _Commitable
+from nekoite_be_core.types.interfaces import ITransactional
 
 __all__ = ["make_commit_decorator", "ModelBase", "make_model_base"]
 
 
-def make_commit_decorator(session: _Commitable):
+def make_commit_decorator(session: ITransactional):
     """
     Generates a decorator that does session.commit() after the function
     is finished.
@@ -26,9 +27,14 @@ def make_commit_decorator(session: _Commitable):
     """
 
     def dbcommit(func: Callable) -> Callable:
+        @functools.wraps(func)
         def do_and_commit(*args, **kwargs):
-            func(*args, **kwargs)
-            session.commit()
+            try:
+                func(*args, **kwargs)
+                session.commit()
+            except:
+                session.rollback()
+                raise
 
         return do_and_commit
 

@@ -7,12 +7,15 @@ else:
     from typing import Protocol, runtime_checkable
 
 
-__all__ = ["ICommitable", "IStrSerializer"]
+__all__ = ["ITransactional", "IStrSerializer"]
 
 
 @runtime_checkable
-class ICommitable(Protocol):
+class ITransactional(Protocol):
     def commit(self) -> None:
+        ...
+
+    def rollback(self) -> None:
         ...
 
 
