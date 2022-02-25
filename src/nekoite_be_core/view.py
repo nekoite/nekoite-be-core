@@ -3,7 +3,13 @@ from abc import ABC, abstractmethod
 from marshmallow import Schema
 
 
-__all__ = ["Response", "ViewBase", "FrameworkAdapterBase", "register_routes"]
+__all__ = [
+    "Response",
+    "ViewBase",
+    "FrameworkAdapterBase",
+    "Pagination",
+    "register_routes",
+]
 
 
 class Response:
@@ -63,6 +69,45 @@ class FrameworkAdapterBase(ABC):
     @abstractmethod
     def register_route(self, route: str, view: ViewBase):
         raise NotImplementedError()
+
+
+class Pagination:
+    KEY_LIMIT = "limit"
+    KEY_PAGENUM = "page"
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, int]) -> "Pagination":
+        if not isinstance(data[cls.KEY_LIMIT], int) or not isinstance(
+            data[cls.KEY_PAGENUM], int
+        ):
+            raise ValueError("values should be integers")
+        return cls(data[cls.KEY_LIMIT], data[cls.KEY_PAGENUM])
+
+    def __init__(self, items_per_page: int, page: int) -> None:
+        self._limit = items_per_page
+        self._page = page
+
+    @property
+    def offset(self) -> int:
+        return self._limit * (self._page - 1)
+
+    @property
+    def limit(self) -> int:
+        return self._limit
+
+    @property
+    def page(self) -> int:
+        return self._page
+
+    @property
+    def pagination_dict(self):
+        return {self.KEY_PAGENUM: self._page, self.KEY_LIMIT: self.limit}
+
+    def __str__(self) -> str:
+        return str(self.pagination_dict)
+
+    def __repr__(self) -> str:
+        return str(self)
 
 
 def register_routes(
