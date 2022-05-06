@@ -27,8 +27,9 @@ def make_commit_decorator(session: _Commitable):
 
     def dbcommit(func: Callable) -> Callable:
         def do_and_commit(*args, **kwargs):
-            func(*args, **kwargs)
+            res = func(*args, **kwargs)
             session.commit()
+            return res
 
         return do_and_commit
 
@@ -66,6 +67,8 @@ def make_model_base(session: Union[scoped_session, sessionmaker]) -> Type[ModelB
     s = scoped_session(session) if isinstance(session, sessionmaker) else session
 
     class __Base(ModelBase):
+        __abstract__ = True
+
         session = s
         query = session.query_property()
 
