@@ -32,7 +32,7 @@ def setup_pkg():
 
     metadata = dict(
         name="nekoite-be-core",
-        version="0.1.2",
+        version="0.1.3",
         author="Nekoite",
         author_email="nekoite@rebuild.moe",
         license="MIT",
