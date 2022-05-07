@@ -26,7 +26,7 @@ def default_routefunc_generator(
         if request.method != "GET" and view._is_json_body_ and not request.is_json:
             raise RuntimeError("Not json post request")
         if request.method in ("PUT", "POST"):
-            req = request.json
+            req = request.json if view._is_json_body_ else {}
         else:
             req = request.args
         try:

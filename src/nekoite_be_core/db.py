@@ -1,3 +1,4 @@
+import functools
 from typing import Any, Callable, Type, Union
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -26,6 +27,7 @@ def make_commit_decorator(session: _Commitable):
     """
 
     def dbcommit(func: Callable) -> Callable:
+        @functools.wraps(func)
         def do_and_commit(*args, **kwargs):
             res = func(*args, **kwargs)
             session.commit()

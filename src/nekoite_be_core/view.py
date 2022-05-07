@@ -27,6 +27,7 @@ class Response:
 
 class ViewBase(ABC):
     _is_json_body_ = True
+    _check_resp_ = True
 
     request_schema: Dict[str, Any]
     response_schema: Dict[str, Any]
@@ -56,6 +57,8 @@ class ViewBase(ABC):
     def parse_response(self, resp: Any) -> Any:
         if not isinstance(resp, dict) or not self._resp_sch:
             return resp
+        if self._check_resp_:
+            self._resp_sch.validate(resp)
         return self._resp_sch.dump(resp)
 
 
